@@ -4,21 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Semiyoloji Rehberi · Dönem 4</title>
-<meta name="theme-color" content="#0e5e6f">
+<meta name="theme-color" content="#0C2F3B">
 <meta name="description" content="Dönem 4 öğrencileri için anamnez, fizik muayene ve semiyoloji başvuru rehberi (çevrimdışı).">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Semiyoloji">
 <style>
 :root{
-  --bg:#f4f6f7;--card:#ffffff;--ink:#17252a;--mute:#5b6b70;--line:#dfe5e7;
-  --pri:#0e5e6f;--pri2:#13788d;--acc:#f2a93b;--soft:#e6f1f3;--key:#fff6e6;--keyline:#f2c27a;
-  --ok:#2e7d4f;--fs:16px;
+  --bg:#F5F3EE;--card:#FFFFFF;--ink:#1B2A30;--mute:#5F6F76;--line:#E7E2D8;
+  --pri:#145566;--pri2:#1F6A7D;--deep:#0C2F3B;--acc:#C3913F;--acc2:#E7C27D;
+  --soft:#EBF2F2;--key:#FBF4E6;--keyline:#E3C68F;--ok:#2F7A55;--fs:16px;
+  --sh:0 1px 2px rgba(12,47,59,.06),0 4px 14px rgba(12,47,59,.06);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#0f1719;--card:#172226;--ink:#e3eaec;--mute:#93a5aa;--line:#26363b;
-  --pri:#5fb8c9;--pri2:#7ccad8;--soft:#1b2c31;--key:#2a2416;--keyline:#7a5f2c;--ok:#6cc08f}
+  :root{--bg:#0B171C;--card:#122229;--ink:#E4ECEE;--mute:#97A9AF;--line:#203740;
+  --pri:#7CC3D2;--pri2:#9AD3DF;--deep:#07141A;--soft:#17303A;--key:#2A2416;--keyline:#6F5428;--ok:#73C394;
+  --sh:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25)}
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--fs)/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
@@ -128,10 +132,56 @@ a.q{display:inline-block;font-size:.72rem;width:18px;height:18px;line-height:16p
 .vit .u{display:flex;align-items:center;gap:5px}
 .vit em{font-style:normal;font-size:.78rem;color:var(--mute);white-space:nowrap}
 .rosall{}
+
+/* ===== theme v2 ===== */
+html,body{background:var(--bg)}
+h1,h2,.ch-h,article.ch h2,.card h2{font-family:var(--serif);letter-spacing:.005em}
+header.top{background:linear-gradient(135deg,var(--pri2) 0%,var(--deep) 100%);box-shadow:0 2px 12px rgba(12,47,59,.25);padding:calc(env(safe-area-inset-top) + 10px) 14px 11px}
+@media (prefers-color-scheme:dark){header.top{background:linear-gradient(135deg,#17505F 0%,#07141A 100%)}}
+header.top .brand{display:flex;width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.1);align-items:center;justify-content:center;flex:0 0 auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+header.top .mark{width:28px;height:28px}
+header.top h1{font-family:var(--serif);font-size:1.12rem;font-weight:600;letter-spacing:.01em}
+header.top h1 small{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:.7rem;letter-spacing:.04em;opacity:.72;margin-top:2px;color:var(--acc2)}
+.hbtn{background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);border-radius:9px;padding:6px 9px;font-size:.8rem}
+.card,article.ch,details.sec{border:0;box-shadow:var(--sh);border-radius:16px}
+.card h2{font-size:1.14rem;font-weight:600;color:var(--ink)}
+.card h3{color:var(--pri)}
+.step{padding:6px 4px;border-radius:12px}
+.step .n{background:linear-gradient(135deg,var(--pri2),var(--deep));box-shadow:0 2px 6px rgba(12,47,59,.25);font-family:var(--serif)}
+.step b{font-size:1rem}
+.cat{color:var(--acc);letter-spacing:.08em;font-size:.74rem;margin-top:20px}
+.list a{padding:12px 2px}
+.list a .no{color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums}
+.list li{border-top-color:var(--line)}
+nav.bottom{background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-top:1px solid var(--line)}
+nav.bottom a{font-size:.68rem;letter-spacing:.01em}
+nav.bottom a.on{color:var(--pri)}
+nav.bottom a.on svg{background:var(--soft);border-radius:10px;padding:2px 9px;width:40px;box-sizing:content-box;margin:0 -9px}
+.btn{border-color:var(--line);border-radius:11px;padding:8px 14px;font-weight:500}
+.btn.pri{background:linear-gradient(135deg,var(--pri2),var(--pri));border:0;box-shadow:0 2px 8px rgba(20,85,102,.28)}
+.chips a{background:var(--soft);color:var(--pri);font-weight:500}
+input.q,.fl input,.fl select,.fl textarea,.vit input,input.sm,.rosn{border-radius:11px;border-color:var(--line);background:var(--card)}
+input.q{box-shadow:var(--sh);border:0;padding:12px 14px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri2)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--pri2) 20%,transparent)!important}
+.keybox{background:var(--key);border:0;border-left:4px solid var(--acc);border-radius:12px}
+.keybox h4{color:var(--acc);font-family:var(--serif);font-size:.98rem}
+article.ch h2{color:var(--pri);border-top-color:var(--line)}
+.ch-h{font-size:1.45rem;font-weight:600}
+.ch-meta{font-style:italic}
+.note{background:var(--soft);border-radius:12px}
+.prog{background:var(--line)}
+.prog i{background:linear-gradient(90deg,var(--ok),#4FA27A)}
+details.sec summary{font-family:var(--serif);font-weight:600;font-size:1.02rem}
+.dot.ok{box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 20%,transparent)}
+.ros .tri button.on.var{background:#A9372C;border-color:#A9372C}
+.star{color:var(--acc)}
+mark{background:#F3DFAF}
+.src{border-top:1px solid var(--line);padding-top:10px}
 </style>
 </head>
 <body>
 <header class="top">
+  <a href="#/" class="brand" aria-label="Ana sayfa"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true"><path d="M178 134V222C178 300 230 318 256 318S334 300 334 222V134" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/><path d="M256 318V352C256 404 290 420 318 420S372 398 372 362V338" fill="none" stroke="#fff" stroke-width="28" stroke-linecap="round"/><circle cx="178" cy="124" r="19" fill="#fff"/><circle cx="334" cy="124" r="19" fill="#fff"/><circle cx="372" cy="302" r="48" fill="#E7C27D"/><circle cx="372" cy="302" r="22" fill="#0C2F3B"/></svg></a>
   <h1>Semiyoloji Rehberi<small>Dönem 4 · Anamnez · Fizik muayene · Semptomlar</small></h1>
   <button class="hbtn" id="fsDown" aria-label="Yazıyı küçült">A−</button>
   <button class="hbtn" id="fsUp" aria-label="Yazıyı büyüt">A+</button>
@@ -598,7 +648,7 @@ function buildPdf(r){
   doc.addFileToVFS('dv.ttf', SR_FONTS.r); doc.addFont('dv.ttf', 'DV', 'normal');
   doc.addFileToVFS('dvb.ttf', SR_FONTS.b); doc.addFont('dvb.ttf', 'DV', 'bold');
   const M = 16, W = 210 - 2 * M, BOT = 297 - 16; let y = M;
-  const PRI = [14, 94, 111];
+  const PRI = [20, 85, 102];
   const need = h => { if (y + h > BOT){ doc.addPage(); y = M; } };
   const txt = (s, size, bold, color) => { doc.setFont('DV', bold ? 'bold' : 'normal'); doc.setFontSize(size); doc.setTextColor(...(color || [23, 37, 42])); };
   const para = (s, x, w, size = 9.5, bold = false, color) => {
