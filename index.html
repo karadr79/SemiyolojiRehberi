@@ -383,7 +383,7 @@ function vMuayene(){
     const key = 'mu' + (k++);
     return `<h3>${esc(g)}</h3>` + checklist(key, items.map(x => [x[0], '']), it => {
       const ix = findBlock('c0', items.find(x => x[0] === it[0])[1]);
-      return ix >= 0 ? `<a class="go" href="#/c/c0/${ix}">Oku</a>` : '';
+      return ix >= 0 ? `<a class="go" href="#/s/c0/${ix}">Oku</a>` : '';
     });
   }).join('');
   const sys = DATA.chapters.filter(c => c.grp === 'sistem').map(c =>
@@ -448,24 +448,21 @@ function snippet(s, n, terms){
   return (a > 0 ? '… ' : '') + res + (z < s.length ? ' …' : '');
 }
 
-function vChapter(id, focus){
-  const c = CH[id];
-  if (!c) return '<p>Bölüm bulunamadı.</p>';
-  pushRecent(id);
-  const B = c.blocks; let html = ''; let ul = false;
+function renderBlocks(id, a, z){
+  const c = CH[id], B = c.blocks; let html = ''; let ul = false;
   const toc = [];
   const shortP = b => b && b[0] === 'p' && b[1].length < 60 && !/[.;:]$/.test(b[1]);
   const F = {}; (DATA.figs[id] || []).forEach(f => (F[f[0]] ||= []).push(f));
   const nearFig = i => F[i] || F[i-1] || F[i+1] || F[i+2];
-  let fe = 0; const flushFigs = upto => { let o = ''; for (; fe <= upto; fe++) (F[fe] || []).forEach(f => {
+  let fe = a; const flushFigs = upto => { let o = ''; for (; fe <= upto; fe++) (F[fe] || []).forEach(f => {
       o += `<figure class="bfig"><img src="${f[1]}" alt="${esc(f[2])}" loading="lazy" data-zoom><figcaption>${esc(f[2])}<span>Kaynak kitaptan</span></figcaption></figure>`; });
     return o; };
-  for (let i = 0; i < B.length; i++){
+  for (let i = a; i < z; i++){
     const [k, s] = B[i];
-    if (i > 0){ const fx = flushFigs(i - 1); if (fx){ if (ul){ html += '</ul>'; ul = false; } html += fx; } }
+    if (i > a){ const fx = flushFigs(i - 1); if (fx){ if (ul){ html += '</ul>'; ul = false; } html += fx; } }
     if (k !== 'li' && ul){ html += '</ul>'; ul = false; }
     if (shortP(B[i])){
-      let j = i; while (shortP(B[j])) j++;
+      let j = i; while (j < z && shortP(B[j])) j++;
       if (j - i >= 4){
         html += `<div class="tbl" id="b${i}">` + B.slice(i, j).map((b, x) => `<span id="b${i+x}">${esc(b[1])}</span>`).join('') +
           '<em>Tablo içeriği; özgün tablo düzeni için kitaba bakınız.</em></div>';
@@ -480,7 +477,39 @@ function vChapter(id, focus){
     else html += `<p id="b${i}">${esc(s)}</p>`;
   }
   if (ul) html += '</ul>';
-  html += flushFigs(B.length);
+  html += flushFigs(z - 1);
+  return { html, toc };
+}
+
+function secEnd(B, i){
+  const k = B[i][0]; const stop = k === 'h2' ? (t => t === 'h2') : (t => t === 'h2' || t === 'h3');
+  let z = i + 1; while (z < B.length && !stop(B[z][0])) z++; return z;
+}
+function vSection(id, i, sn){
+  const c = CH[id]; if (!c || !c.blocks[i]) return '<p>Bölüm bulunamadı.</p>';
+  i = +i; const B = c.blocks; const head = B[i][0] === 'h2' || B[i][0] === 'h3';
+  let z = secEnd(B, i);
+  (DATA.steps[id] || []).forEach(s => { if (s[2] > i && s[2] < z) z = s[2]; });
+  const { html } = renderBlocks(id, head ? i + 1 : i, z);
+  const step = sn !== undefined && DATA.steps[id] ? DATA.steps[id][+sn] : null;
+  const title = head ? tcase(B[i][1]) : step ? step[0] : (() => { for (let j = i; j >= 0; j--) if (B[j][0] === 'h2' || B[j][0] === 'h3') return tcase(B[j][1]); return tcase(c.title); })();
+  return `
+  <div class="row" style="justify-content:space-between"><button class="btn" data-back="${id}">‹ Geri</button>
+    <a class="mute" href="#/c/${id}/${i}" style="font-size:.86rem">Bölümün tamamında aç</a></div>
+  <h1 class="ch-h" style="margin-top:12px">${esc(title)}</h1>
+  <div class="ch-meta">${esc(ctitle(c))}</div>
+  <article class="ch">${html || '<p class="mute">Bu başlık altında ayrıca metin bulunmuyor.</p>'}
+    <p class="src">${esc(c.author)}. ${esc(tcase(c.title))}. İçinde: Karabay O, Gönüllü E, Kara A, editörler. <i>Semptomlar ve Sistemlerle Semiyoloji</i>. Sakarya Üniversitesi Kültür Yayınları; 2025.</p>
+  </article>
+  <div class="row" style="margin-top:4px"><button class="btn pri" data-back="${id}">‹ Listeye dön</button></div>`;
+}
+
+function vChapter(id, focus){
+  const c = CH[id];
+  if (!c) return '<p>Bölüm bulunamadı.</p>';
+  pushRecent(id);
+  const B = c.blocks;
+  const { html, toc } = renderBlocks(id, 0, B.length);
   const keys = (c.key || []).filter(s => s.length > 3);
   const grpName = c.grp === 'semptom' ? 'Semptomlar' : c.grp === 'sistem' ? 'Sistemler' : c.grp === 'anamnez' ? 'Anamnez' : 'Genel değerlendirme';
   const back = c.grp === 'semptom' ? '#/semptom' : c.grp === 'anamnez' ? '#/anamnez' : '#/muayene';
@@ -489,8 +518,8 @@ function vChapter(id, focus){
     <button class="star" data-fav="${id}" aria-label="Kaydet">${isFav(id) ? '★' : '☆'}</button></div>
   <h1 class="ch-h">${esc(ctitle(c))}</h1>
   <div class="ch-meta">${esc(c.author)}</div>
-  ${DATA.steps[id] ? `<div class="card"><h2>Muayene adımları</h2><p class="mute" style="margin-top:0">Kitaptaki sıraya göre. “Oku” ilgili paragrafı açar.</p>
-    ${checklist('sys' + id, DATA.steps[id].map(s => [s[0], s[1]]), (it, i) => `<a class="go" href="#/c/${id}/${DATA.steps[id][i][2]}">Oku</a>`)}
+  ${DATA.steps[id] ? `<div class="card"><h2>Muayene adımları</h2><p class="mute" style="margin-top:0">Kitaptaki sıraya göre. “Oku” yalnızca o adımın konusunu açar; “Geri” ile listeye dönersiniz.</p>
+    ${checklist('sys' + id, DATA.steps[id].map(s => [s[0], s[1]]), (it, i) => `<a class="go" href="#/s/${id}/${DATA.steps[id][i][2]}/${i}">Oku</a>`)}
     <div class="row" style="margin-top:10px"><button class="btn" data-reset="sys${id}">Listeyi sıfırla</button></div></div>` : ''}
   ${keys.length ? `<div class="keybox"><h4>Akılda kalanlar</h4><ul>${keys.map(s => `<li>${esc(s)}</li>`).join('')}</ul></div>` : ''}
   ${toc.length > 2 ? `<div class="card"><b style="font-size:.9rem">Bu bölümde</b><ul class="toc">${toc.map(([i, s]) => `<li><a href="#/c/${id}/${i}">${esc(tcase(s))}</a></li>`).join('')}</ul></div>` : ''}
@@ -789,7 +818,7 @@ function route(){ return (location.hash || '#/').slice(2).split('/'); }
 function render(){
   const [r, id, b] = route();
   document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on',
-    a.dataset.r === (r === 'c' ? (CH[id] && (CH[id].grp === 'semptom' ? 'semptom' : CH[id].grp === 'anamnez' ? 'anamnez' : 'muayene')) : (r || 'home'))));
+    a.dataset.r === ((r === 'c' || r === 's') ? (CH[id] && (CH[id].grp === 'semptom' ? 'semptom' : CH[id].grp === 'anamnez' ? 'anamnez' : 'muayene')) : (r || 'home'))));
   if (r === 'form') app.innerHTML = id ? vFormEdit(id) : vFormList();
   else if (r === 'anamnez') app.innerHTML = vAnamnez();
   else if (r === 'muayene') app.innerHTML = vMuayene();
@@ -802,6 +831,7 @@ function render(){
     i.oninput = () => { searchQ = i.value; clearTimeout(t); t = setTimeout(runSearch, 180); };
     runSearch(); if (!searchQ) i.focus();
   }
+  else if (r === 's') app.innerHTML = vSection(id, b, route()[3]);
   else if (r === 'c'){
     app.innerHTML = vChapter(id);
     if (b !== undefined){ const el = document.getElementById('b' + b); if (el){ el.scrollIntoView({block:'start'}); el.classList.add('flash'); return; } }
@@ -809,10 +839,17 @@ function render(){
   else app.innerHTML = vHome();
 }
 let lastHash = '';
+let ret = null;   // where "Oku" was pressed, to come back to the same place
+document.addEventListener('click', e => {
+  if (e.target.closest('a.go')) ret = { hash: location.hash || '#/', y: scrollY };
+  const bk = e.target.closest('[data-back]');
+  if (bk){ if (ret && history.length > 1) history.back(); else location.hash = '#/c/' + bk.dataset.back; }
+});
 addEventListener('hashchange', () => {
   document.querySelectorAll('.lb').forEach(x => x.remove());
   const [r] = route();
   render();
+  if (ret && (location.hash || '#/') === ret.hash){ const y = ret.y; ret = null; requestAnimationFrame(() => scrollTo(0, y)); return; }
   if (!(r === 'c' && route()[2] !== undefined)) scrollTo(0, 0);
 });
 render();
