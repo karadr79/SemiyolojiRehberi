@@ -238,15 +238,14 @@ const AN_ENV = [
   ['Yakına bilgi verme', 'Hasta yakını bilgilendirilecekse önce hastadan izin alınır ve bilgilendirme hastanın yanında yapılır.']
 ];
 const AN_PARTS = [
-  ['Ana yakınma', 'Hastanın neden başvurduğu. Kesinlikle hastanın kendi sözcükleriyle kaydedilir (ör. koroner kaynaklı ağrının “hazımsızlık” olarak ifade edilmesi). Birden fazla yakınma varsa hastayı öncelikle getireni belirleyin. “Kalp hastasıyım” gibi bir tanı ifadesinde: “Tam olarak neden yakınıyordunuz da size bu tanı kondu?”'],
-  ['Ana yakınmanın öyküsü', 'Tanıda en yardımcı bölüm. Ön tanıya yönelik sorulara verilen olumlu ve olumsuz yanıtlar (gerekirse özgeçmiş ve aile öyküsünden bilgiler) burada yer alır. Ağrıda örneğin yeri, süresi, yayılımı, niteliği, tetikleyen durumlar ve yanıt verdiği ilaçlar sorgulanır.'],
-  ['Özgeçmiş', 'Geçirilmiş hastalıklar, ameliyatlar, gebelikler gibi bilgiler. Ana yakınmayla ilişkili olanlar öyküye taşınır.'],
-  ['Kullandığı ilaçlar', 'Düzenli ve yeni başlanan ilaçlar, doz ve süreleri; bitkisel ürünler ve takviyeler dahil. İlaçlar yakınmanın nedeni olabilir ya da bulguları gizleyebilir (ör. kortikosteroidler).'],
-  ['Alışkanlıklar: sigara ve alkol', 'Sigara: günlük miktar, süre ve paket-yıl; bırakmışsa ne zaman bıraktığı. Alkol: türü, miktarı, sıklığı ve süresi.'],
-  ['Madde kullanımı ve bağımlılık', 'Kullanılan madde, kullanım yolu (ör. damar içi), sıklığı ve süresi; enjektör paylaşımı. Hastayla baş başayken ve yargılamayan bir dille sorulur.'],
-  ['Soygeçmiş (aile öyküsü)', 'Ailede benzer veya ilişkili hastalıklar.'],
-  ['Sistemler anamnezi', 'Diğer organ sistemlerine yönelik sorgulama. Olumsuz yanıtlar da ayırıcı tanıda yol gösterir.'],
-  ['Alerji öyküsü', 'Bilinen ilaç ve diğer alerjiler.']
+  ['1. Ana yakınma', 'Hastanın neden başvurduğu. Kesinlikle hastanın kendi sözcükleriyle kaydedilir (ör. koroner kaynaklı ağrının “hazımsızlık” olarak ifade edilmesi). Birden fazla yakınma varsa hastayı öncelikle getireni belirleyin. “Kalp hastasıyım” gibi bir tanı ifadesinde: “Tam olarak neden yakınıyordunuz da size bu tanı kondu?”'],
+  ['2. Ana yakınmanın öyküsü', 'Tanıda en yardımcı bölüm. Ön tanıya yönelik sorulara verilen olumlu ve olumsuz yanıtlar (gerekirse özgeçmiş ve aile öyküsünden bilgiler) burada yer alır. Ağrıda örneğin yeri, süresi, yayılımı, niteliği, tetikleyen durumlar ve yanıt verdiği ilaçlar sorgulanır.'],
+  ['3. Özgeçmiş', 'Geçirilmiş hastalıklar, ameliyatlar, gebelikler gibi bilgiler. Ana yakınmayla ilişkili olanlar öyküye taşınır.'],
+  ['4. Soygeçmiş (aile öyküsü)', 'Ailede benzer veya ilişkili hastalıklar.'],
+  ['5. Sistemler anamnezi', 'Diğer organ sistemlerine yönelik sorgulama. Olumsuz yanıtlar da ayırıcı tanıda yol gösterir.'],
+  ['6. Alerji öyküsü', 'Bilinen ilaç ve diğer alerjiler.'],
+  ['7. İlaç anamnezi', 'Düzenli ve yeni başlanan ilaçlar, doz ve süreleri; bitkisel ürünler ve takviyeler dahil. İlaçlar yakınmanın nedeni olabilir ya da bulguları gizleyebilir (ör. kortikosteroidler).'],
+  ['8. Alışkanlıklar', 'Sigara: günlük miktar, süre ve paket-yıl; bırakmışsa ne zaman bıraktığı. Alkol: türü, miktarı, sıklığı ve süresi. Madde kullanımı: madde, kullanım yolu (ör. damar içi), sıklık, süre, enjektör paylaşımı; hastayla baş başayken ve yargılamayan bir dille sorulur.']
 ];
 const MU = [
   ['Vital bulgular', [['Vücut ısısı','Vücut Isısı'],['Nabız','Nabız'],['Solunum','Solunum'],['Kan basıncı','Kan Basıncı']]],
@@ -462,17 +461,22 @@ const FORM = [
     f:[ ['hik','Öykü','area big'], ['hpos','Ayırıcı tanıya yönelik olumlu yanıtlar','area'], ['hneg','Ayırıcı tanıya yönelik olumsuz yanıtlar','area'] ] },
   { id:'oz', t:'Özgeçmiş',
     f:[ ['ozh','Geçirilmiş ve kronik hastalıklar','area'], ['ozop','Ameliyatlar, travmalar, kan transfüzyonu','area'],
-        ['ozilac','Kullandığı ilaçlar (doz, süre; bitkisel ürünler dahil)','area'],
         ['ozobs','Menstrüasyon ve obstetrik öykü (kadın hastalarda)','area','Ör. G2 P1 A1, son adet tarihi'],
-        ['sigara','Sigara','smoke'], ['alkol','Alkol','text','Türü, miktarı, sıklığı, süresi'],
-        ['madde','Madde kullanımı / bağımlılık','text','Madde, kullanım yolu, sıklık, süre'],
-        ['asi','Aşılar','text'], ['yasam','Beslenme, fiziksel aktivite, uyku','area'] ] },
+        ['asi','Aşılar','text'] ] },
   { id:'soy', t:'Soygeçmiş (aile öyküsü)',
     f:[ ['anne','Anne','text','Yaşıyor / sağ; hastalıkları'], ['baba','Baba','text'], ['kardes','Kardeşler','text'], ['cocuk','Çocuklar','text'],
         ['soydiger','Ailede kalıtsal veya benzer hastalıklar, akraba evliliği','area'] ] },
-  { id:'alerji', t:'Alerji öyküsü', f:[ ['alerji','İlaç, besin ve diğer alerjiler (reaksiyon tipiyle)','area','Bilinen alerjisi yok / …'] ] },
   { id:'ros', t:'Sistem sorgusu', special:'ros',
     hint:'Her belirti için “Var” ya da “Yok” işaretleyiniz; boş bırakılanlar sorgulanmamış sayılır. “?” ilgili semptom bölümünü açar.' },
+  { id:'alerji', t:'Alerji öyküsü', f:[ ['alerji','İlaç, besin ve diğer alerjiler (reaksiyon tipiyle)','area','Bilinen alerjisi yok / …'] ] },
+  { id:'ilac', t:'İlaç anamnezi',
+    hint:'Düzenli ve yeni başlanan ilaçlar; bitkisel ürünler ve takviyeler dahil.',
+    f:[ ['ozilac','Kullandığı ilaçlar (doz, süre)','area','Ör. Ramipril 5 mg 1×1, 3 yıldır'] ] },
+  { id:'alis', t:'Alışkanlıklar',
+    hint:'Madde kullanımını hastayla baş başayken ve yargılamayan bir dille sorunuz.',
+    f:[ ['sigara','Sigara','smoke'], ['alkol','Alkol','text','Türü, miktarı, sıklığı, süresi'],
+        ['madde','Madde kullanımı / bağımlılık','text','Madde, kullanım yolu, sıklık, süre'],
+        ['yasam','Beslenme, fiziksel aktivite, uyku','area'] ] },
   { id:'fm', t:'Fizik muayene', special:'fm', ch:'c0' },
   { id:'sonuc', t:'Değerlendirme',
     f:[ ['ozet','Özet (anamnez ve muayenenin bir paragraflık özeti)','area'], ['ontani','Ön tanı','area'],
@@ -579,7 +583,7 @@ function vFormEdit(id){
     const body = s.special === 'ros' ? rosHtml(r) : s.special === 'fm' ? fmHtml(r) : s.f.map(x => fieldHtml(r, x)).join('');
     const prm = s.prompts ? `<div class="chips" style="margin-bottom:8px">${s.prompts.map(p => `<a href="#" data-prompt="${esc(p)}">${esc(p)}</a>`).join('')}</div>` : '';
     const open = openSec[id + s.id] ?? (i < 3);
-    return `<details class="sec" data-sec="${s.id}"${open ? ' open' : ''}><summary><span class="dot${secFilled(r, s) ? ' ok' : ''}"></span>${i + 1}. ${esc(s.t)}</summary>
+    return `<details class="sec" data-sec="${s.id}"${open ? ' open' : ''}><summary><span class="dot${secFilled(r, s) ? ' ok' : ''}"></span>${i ? i + '. ' : ''}${esc(s.t)}</summary>
       ${s.warn ? `<div class="note warn">${esc(s.warn)}</div>` : ''}${s.hint ? `<p class="mute hintp">${esc(s.hint)}${s.ch ? ` <a href="#/c/${s.ch}">Rehberde oku ›</a>` : ''}</p>` : ''}
       ${prm}${body}</details>`;
   }).join('');
@@ -670,12 +674,12 @@ function buildPdf(r){
   txt('', 9, false, [91, 107, 112]);
   doc.text([f.ini && 'Hasta: ' + f.ini, f.yas && 'Yaş: ' + f.yas, f.cins && 'Cinsiyet: ' + f.cins, f.tarih && 'Tarih: ' + fmtDate(f.tarih)].filter(Boolean).join('   ·   '), M, y + 3); y += 5;
   doc.setDrawColor(...PRI); doc.setLineWidth(0.4); doc.line(M, y, M + W, y); y += 3;
-  FORM.forEach(s => {
+  FORM.forEach((s, si) => {
     if (!secFilled(r, s)) return;
     if (s.id === 'kimlik'){
       const kv = s.f.filter(([k]) => !['ini','yas','cins','tarih'].includes(k) && f[k]);
       if (!kv.length) return; head(s.t); kv.forEach(([k, l]) => field(l, f[k])); return; }
-    head(s.t);
+    head(si + '. ' + s.t);
     if (s.special === 'ros'){
       let unasked = [];
       ROS.forEach(([g, items], gi) => {
