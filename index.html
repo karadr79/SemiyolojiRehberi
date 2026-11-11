@@ -615,7 +615,7 @@ const FORM = [
   { id:'hik', t:'Ana yakınmanın öyküsü (hikâyesi)', ch:'can',
     hint:'Tanıda en yardımcı bölüm. Ön tanılarınıza yönelik derinleştirici sorgulamada hastanın tarif ettiği ve tarif etmediği yakınmaları da burada yazınız. Başlıklara dokunarak metne ekleyebilirsiniz.',
     prompts:['Başlangıç zamanı ve şekli','Yeri','Niteliği','Şiddeti','Yayılımı','Süresi ve seyri','Artıran / azaltan durumlar','Eşlik eden yakınmalar','Yanıt verdiği ilaçlar','Daha önce yapılan tetkik ve tedaviler'],
-    f:[ ['hik','Öykü','area big'], ['hpos','Anamnezin derinleştirilmesine yönelik sorgulama: hastanın tarif ettikleri','area'], ['hneg','Anamnezin derinleştirilmesine yönelik sorgulama: hastanın tarif etmedikleri','area'] ] },
+    f:[ ['hik','Öykü','area big'], ['hpos','Anamnezin derinleştirilmesine yönelik sorgulama','area big'] ] },
   { id:'oz', t:'Özgeçmiş',
     f:[ ['ozh','Geçirilmiş ve kronik hastalıklar','area'], ['ozop','Ameliyatlar, travmalar, kan transfüzyonu','area'],
         ['ozobs','Menstrüasyon ve obstetrik öykü (kadın hastalarda)','area','Ör. G2 P1 A1, son adet tarihi'],
@@ -672,6 +672,7 @@ const FM_S = [
 
 /* ---- records (stored only on this device) ---- */
 let RECS = store.get('recs', []);
+RECS.forEach(r => { if (r.f && r.f.hneg){ r.f.hpos = [r.f.hpos, r.f.hneg].filter(Boolean).join('\n'); delete r.f.hneg; } });
 const saveRecs = () => store.set('recs', RECS);
 const getRec = id => RECS.find(r => r.id === id);
 function newRec(){
@@ -1068,6 +1069,7 @@ const VAKA = [
   pos:{ 'Lenf bezi büyümesi':'sağ boyun, 2 ay, ağrısız', 'Ateş':'6 hafta, akşamları', 'Terleme / gece terlemesi':'6 hafta', 'İstemsiz kilo kaybı':'6 ayda 8 kg', 'Kaşıntı':'yaygın', 'Halsizlik':'' },
   learn:['Lenfadenopatide yerleşim, boyut, kıvam, ağrı, hareketlilik ve üzerindeki deri tek tek tanımlanır; tüm lenf nodu bölgeleri ve dalak muayene edilir.','Ateş, gece terlemesi ve kilo kaybı (B semptomları) özellikle sorgulanır.','Supraklaviküler lenfadenopati her yaşta ileri inceleme gerektirir.'] }
 ];
+VAKA.forEach(v => { if (v.f.hneg){ v.f.hpos = [v.f.hpos, v.f.hneg].filter(Boolean).join('\n'); delete v.f.hneg; } });
 const VK = Object.fromEntries(VAKA.map(v => [v.id, v]));
 function vakaRos(v){
   const ros = {}, rosn = {};
@@ -1102,7 +1104,7 @@ function vVaka(id){
     if (s.special === 'fm'){
       const vit = FM_V.filter(([k]) => f[k]).map(([k, l, u]) => `${l} ${f[k]} ${u}`).join(' · ');
       out += sec(s.t, `<p style="margin:.35em 0"><b>Vital bulgular:</b> ${esc(vit)}</p>` + FM_S.map(([k, l]) => row(l, f[k])).join('') + `<p class="mute" style="margin:.35em 0">Belirtilmeyen sistemlerde patolojik bulgu saptanmadı.</p>`); return; }
-    let h = s.f.map(([k, l, type]) => type === 'smoke' ? row('Sigara', [f.sigDurum, f.sigAdet && f.sigYil ? `${f.sigAdet} adet/gün, ${f.sigYil} yıl (${(f.sigAdet / 20 * f.sigYil).toFixed(0)} paket-yıl)` : ''].filter(Boolean).join(' · ')) : k === 'hpos' ? `<h3 style="margin:.9em 0 .2em;font-size:1rem">Anamnezin derinleştirilmesine yönelik sorgulama</h3>` + row('Hastanın tarif ettikleri', f.hpos) : k === 'hneg' ? row('Hastanın tarif etmedikleri', f.hneg) : row(l, f[k]) + (k === 'ay' && f.ayt ? `<p style="margin:.35em 0"><b>Tıbbi karşılığı:</b> <span style="color:var(--accent,inherit)">${esc(f.ayt)}</span></p>` : '')).join('');
+    let h = s.f.map(([k, l, type]) => type === 'smoke' ? row('Sigara', [f.sigDurum, f.sigAdet && f.sigYil ? `${f.sigAdet} adet/gün, ${f.sigYil} yıl (${(f.sigAdet / 20 * f.sigYil).toFixed(0)} paket-yıl)` : ''].filter(Boolean).join(' · ')) : k === 'hpos' ? (f.hpos ? `<h3 style="margin:.9em 0 .2em;font-size:1rem">Anamnezin derinleştirilmesine yönelik sorgulama</h3>` + f.hpos.split('\n').map(x => `<p style="margin:.35em 0">${esc(x)}</p>`).join('') : '') : row(l, f[k]) + (k === 'ay' && f.ayt ? `<p style="margin:.35em 0"><b>Tıbbi karşılığı:</b> <span style="color:var(--accent,inherit)">${esc(f.ayt)}</span></p>` : '')).join('');
     out += sec(s.t, h);
   });
   out += sec('Bu vakadan öğrenilecekler', '<ul>' + v.learn.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>');
