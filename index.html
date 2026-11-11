@@ -7,6 +7,10 @@
 <meta name="theme-color" content="#F9F9F9" id="tc">
 <meta name="description" content="Dönem 4 öğrencileri için anamnez, fizik muayene ve semiyoloji başvuru rehberi (çevrimdışı).">
 <link rel="manifest" href="manifest.webmanifest">
+<meta name="author" content="Prof. Dr. Ekrem KARA">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="ortak.css">
+<script src="ortak.js"></script>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +25,7 @@ var d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme: dark)').matche
   --gold:#B8862E; --key:#FFF8EA; --red:#FF3B30; --green:#34C759; --ok:#248A3D;
   --bar:rgba(249,249,249,.82); --barline:rgba(0,0,0,.16);
   --fs:16px; --r:12px;
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro",system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font:"Atkinson Hyperlegible Next",-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro",system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   color-scheme:light;
 }
 html[data-theme="dark"]{
@@ -214,8 +218,28 @@ figure.bfig figcaption span{display:block;font-weight:400;font-size:.74rem;color
 .lb p{color:#eee;font-size:.88rem;margin:10px 8px 0;text-align:center}
 .lb button{position:absolute;top:calc(env(safe-area-inset-top) + 10px);right:12px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:1rem}
 </style>
+<style id="suite">
+/* === RTEÜ Nefroloji uygulama ailesi (ortak) === */
+.suite{display:flex;align-items:center;gap:18px;background:#0E1F2E;color:#C9D6E2;
+  font:500 13px/1.2 "Atkinson Hyperlegible Next",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 max(14px,env(safe-area-inset-right,0px)) 0 max(14px,env(safe-area-inset-left,0px));
+  padding-top:env(safe-area-inset-top,0px);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.08)}
+.suite::-webkit-scrollbar{display:none}
+.suite-org{font-weight:800;color:#fff;white-space:nowrap;letter-spacing:.01em}
+.suite-apps{display:flex;gap:16px;margin:0;padding:0;list-style:none}
+.suite a{color:#C9D6E2;text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+  padding:10px 0 8px;border-bottom:2px solid transparent;min-height:40px;box-sizing:border-box}
+.suite a::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--suite-c)}
+.suite a:hover{color:#fff}
+.suite a[aria-current="page"]{color:#fff;font-weight:700;border-bottom-color:var(--suite-c)}
+.suite a:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:2px}
+.suite .ss{display:none}
+@media (max-width:520px){.suite-org{display:none}.suite .sl{display:none}.suite .ss{display:inline}.suite-apps{gap:14px}}
+@media print{.suite{display:none}}
+:root{--accent:var(--tint);--accent-ink:var(--tint-on);--accent-soft:var(--soft);--surface:var(--card)}
+</style>
 </head>
 <body>
+<!--suite-nav--><nav class="suite" aria-label="RTEÜ Nefroloji uygulamaları"><span class="suite-org">RTEÜ Nefroloji</span><ul class="suite-apps"><li><a href="https://karadr79.github.io/nefro-kons/" style="--suite-c:#A9BCD3"><span class="sl">Konsültasyon</span><span class="ss">Konsültasyon</span></a></li><li><a href="https://karadr79.github.io/NefroHesapAraclar/" style="--suite-c:#46BDD0"><span class="sl">Hesap araçları</span><span class="ss">Hesap</span></a></li><li><a href="https://karadr79.github.io/KBHRehberi/" style="--suite-c:#7FB0E0"><span class="sl">KBH Rehberi</span><span class="ss">KBH</span></a></li><li><a href="https://karadr79.github.io/NakilRehberi/" style="--suite-c:#C7A6E8"><span class="sl">Nakil Rehberi</span><span class="ss">Nakil</span></a></li><li><a href="https://karadr79.github.io/KlinikBeslenme/" style="--suite-c:#5DBE8F"><span class="sl">Klinik beslenme</span><span class="ss">Beslenme</span></a></li><li><a href="https://karadr79.github.io/SemiyolojiRehberi/" style="--suite-c:#F2A93B" aria-current="page"><span class="sl">Semiyoloji</span><span class="ss">Semiyoloji</span></a></li></ul></nav><!--/suite-nav-->
 <header class="top">
   <a href="#/" class="brand" aria-label="Ana sayfa"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true"><path d="M178 134V222C178 300 230 318 256 318S334 300 334 222V134" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/><path d="M256 318V352C256 404 290 420 318 420S372 398 372 362V338" fill="none" stroke="#fff" stroke-width="28" stroke-linecap="round"/><circle cx="178" cy="124" r="19" fill="#fff"/><circle cx="334" cy="124" r="19" fill="#fff"/><circle cx="372" cy="302" r="48" fill="#E7C27D"/><circle cx="372" cy="302" r="22" fill="#0C2F3B"/></svg></a>
   <h1>Semiyoloji Rehberi<small>RTEÜ Tıp Fakültesi · İç Hastalıkları Anabilim Dalı</small></h1>
@@ -372,7 +396,7 @@ function vHome(){
   const fav = favs.filter(id => CH[id]).map(id => `<li><a href="#/c/${id}"><span class="t">${esc(ctitle(CH[id]))}</span><span class="chev">›</span></a></li>`).join('');
   const rec = recent.filter(id => CH[id]).map(id => `<li><a href="#/c/${id}"><span class="t">${esc(ctitle(CH[id]))}</span><span class="chev">›</span></a></li>`).join('');
   return `
-  <div class="org"><b>Recep Tayyip Erdoğan Üniversitesi Tıp Fakültesi</b><span>İç Hastalıkları Anabilim Dalı · Dönem 4 Semiyoloji Rehberi</span></div>
+  <div class="org"><b>Recep Tayyip Erdoğan Üniversitesi Tıp Fakültesi</b><span>İç Hastalıkları Anabilim Dalı · Dönem 4 Semiyoloji Rehberi</span><span style="margin-top:6px;color:var(--ink2)"><b style="display:inline;font-size:inherit">Prof. Dr. Ekrem KARA</b> · Nefroloji Bilim Dalı</span><span style="font-size:.74rem">Sürüm 1.4 · 11.11.2026</span></div>
   <div class="card"><h2>Hastaya yaklaşım: dört adım</h2>
     <p class="mute" style="margin-top:0">Tanı üç aşamadan oluşur: anamnez, fizik muayene, laboratuvar ve görüntüleme. Bilinçli bir anamnez, hastaların yaklaşık %75'inde tanıya götürür.</p>
     <div class="steps">
@@ -907,6 +931,9 @@ render();
 if ('serviceWorker' in navigator && location.protocol === 'https:'){
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {});
 }
+</script>
+<script>
+(function(){if(!window.RTEU)return;const boot=()=>RTEU.init({key:"sr",fs:false,author:false,tools:"#rt-none",view:"#app",reset:false,press:".step,.list a,.ch,.chips a,.btn,.cat",cards:".card",tables:".tbl"});if(document.readyState==="complete")setTimeout(boot,100);else window.addEventListener("load",()=>setTimeout(boot,100))})();
 </script>
 </body>
 </html>
